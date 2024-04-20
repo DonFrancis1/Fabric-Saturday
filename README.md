@@ -25,7 +25,7 @@
 
      1. On the explorer, click the + icon to add your LH1 to the warehouse.
      2. Create a new SQL query
-          3. Use the SQL query in the repository named WarehouseObjects
+     3. Use the SQL query in the repository named WarehouseObjects
           
 ### Create a pipeline for incremental refresh 
   In your pipeline: 
