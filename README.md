@@ -54,8 +54,9 @@
   18. Under stored procedure parameter, click on import and provided the following parameters for modifieddate and table name :
       
               @{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}
+      
               @{activity('LookupOldWaterMarkActivity').output.firstRow.TableName}
-  19. 
+  20. 
          
 
   
