@@ -25,24 +25,37 @@
 
      1. On the explorer, click the + icon to add your LH1 to the warehouse.
      2. Create a new SQL query
-     3. Use the SQL query in the repository named WarehouseObjects
+     3. Use the SQL query file in this repository named WarehouseObjects
           
 ### Create a pipeline for incremental refresh 
   In your pipeline: 
 
   1. Add a lookup activity and name it LookupOldWaterMarkActivity
-  2. Under settings tab, pick your warehouse WH1 and select the watermarktable.
-  3. Keep first row checked.
+  2. Under the settings tab, pick your warehouse WH1 and select the watermarktable.
+  3. Keep the first row checked.
   4. Add a second lookup activity and name it LookUpNewWaterMarkActivity
-  5. Under setting tab, pick your warehouse WH1 and select query 
+  5. Under the setting tab, pick your warehouse WH1 and select query 
   6. Paste this query in the space provided:
      
              select MAX(ModifiedDate) as NewWatermarkvalue from SalesOrderTable
      
-  9. Add a copy activity to your canva and connect it to the two look up activities on the "On success"
-  10. Under source tab, select warehouse,  pick WH1 and use query
+  9. Add a copy activity to your Canva and connect it to the two look up activities on the "On success"
+  10. Under the source tab, select warehouse,  pick WH1, and use query
   11. In the space provided, paste the following query:
-     
-          select * from SalesOrderTable where ModifiedDate > '@{activity('LookupOldWaterMarkActivity').output.firstRow.WatermarkValue}' and ModifiedDate <= '@{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}'
+
+     select * from SalesOrderTable where ModifiedDate > '@{activity('LookupOldWaterMarkActivity').output.firstRow.WatermarkValue}' and ModifiedDate <= '@{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}'
+
+  12. Under Destination, Pick lakehouse and Select LH1
+  13. Select tables, click on new and name the table IncrementingSaleOrder
+  14. Expand advanced and pick append as table action
+  15. Add stored procedure activity to the pipeline and link the copy activity to it.
+  16. Under the settings tab, pick warehouse and select WH1
+  17. Select the procedure [dbo].[usp_write_watermark]
+  18. Under stored procedure parameter, click on import and provided the following parameters for modifieddate and table name :
+      
+              @{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}
+              @{activity('LookupOldWaterMarkActivity').output.firstRow.TableName}
+  19. 
+         
 
   
