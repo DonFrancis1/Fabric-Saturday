@@ -1,6 +1,7 @@
 # Fabric-Saturday
 
 ## Incremental Refresh in Microsoft Fabric
+### Ingest Data from On-Prem Data using a data pipeline
   To demonstrate Incremental refresh, we will be using  SalesOrderDetail table from the publicly available AdventureWorks2019 On-Prem database which will be ingested into a lakehouse using copy activity. 
   A fraction of the SalesOrderDetail will be used: 
 
@@ -12,3 +13,11 @@
     6. Choose load new table and specify the name of your table as SalesOrderTable
     7. uncheck enable partitions
     8. Uncheck transfer immediately and click OK. 
+
+### Creating Warehouse and database objects
+Fabric items will be created within the warehouse for incremental loading. 
+  1. a watermarktable (this table within incremental loading context keep metadata of SaleOrderTable which will be used to track the freshness of data ingested into the warehouse)
+  2. a store procedure to update the watermarktable.
+      1. On the explorer, click the + icon to add your LH1 to the warehouse.
+      2. Create a new SQL query
+      3. Use the SQL query in the repository named WarehouseObjects
