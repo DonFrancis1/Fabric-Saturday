@@ -56,7 +56,28 @@
               @{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}
       
               @{activity('LookupOldWaterMarkActivity').output.firstRow.TableName}
-  20. 
-         
+  19. Go to your LH1 and check for the incrementingSaleOrder
 
-  
+### Test the Incrementation
+
+  1. Open the InitialDataLoad pipeline
+  2. Under the source tab of the copy activity, replace the query with this (this new query updates the SalesOrderTable with data from the On-Prem Source):
+     
+             SELECT * FROM [AdventureWorks2019].[Sales].[SalesOrderDetail]
+     
+  4. Add a script activity to your pipeline, on the general tab, name the activity KeepWarehouseSync
+  5. Link the script activity to the copy activity "On Success"
+  6. Under the settings tab, select warehouse and pick WH1
+  7. In the Query space provided, paste the following query:
+
+         DROP TABLE [WH1].[dbo].[SalesOrderTable];
+         --keep SALES ORDER TABLE up to date
+          CREATE TABLE [WH1].[dbo].[SalesOrderTable]
+         AS
+          SELECT * FROM [LH1].[dbo].[SalesOrderTable];
+
+  8. Save and run the Pipeline.
+  9. Go to IncrementalLoad Pipeline and trigger another.
+  10. Go back to your WH1 and confirm the value in the watermark table to be the maximum ModifiedDate
+
+We have been able to load data from an on Prem Data source using Incremental Data Load method. 
