@@ -75,11 +75,13 @@
           CREATE TABLE [WH1].[dbo].[SalesOrderTable]
          AS
           SELECT * FROM [LH1].[dbo].[SalesOrderTable];
+     
 <img width="884" alt="image" src="https://github.com/DonFrancis1/Fabric-Saturday/assets/88105784/72522293-b716-49db-b050-010ac40c815e">
 
   8. Save and run the Pipeline.
-  9. Go to IncrementalLoad Pipeline and trigger another.
+  9. Go to IncrementalLoad Pipeline and trigger another run.
   10. Go back to your WH1 and confirm the value in the watermark table to be the maximum ModifiedDate
+
 <img width="891" alt="image" src="https://github.com/DonFrancis1/Fabric-Saturday/assets/88105784/1972a568-4ab6-40e9-b18d-26a6fc430fdb">
 
-We have been able to load data from an on Prem Data source using Incremental Data Load method. 
+We have been able to load data from an On-Prem Data source using Incremental Data Load method. 
