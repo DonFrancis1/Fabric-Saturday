@@ -22,5 +22,19 @@
           1. On the explorer, click the + icon to add your LH1 to the warehouse.
           2. Create a new SQL query
           3. Use the SQL query in the repository named WarehouseObjects
+          
 ### Create a pipeline for incremental refresh 
+  In your pipeline: 
+
+    1. Add a lookup activity and name it LookupOldWaterMarkActivity
+    2. Under settings tab, pick your warehouse WH1 and select the watermarktable.
+    3. Keep first row checked.
+    4. Add a second lookup activity and name it LookUpNewWaterMarkActivity
+    5. Under setting tab, pick your warehouse WH1 and select query 
+    6. Paste this query in the space provided: select MAX(ModifiedDate) as NewWatermarkvalue from SalesOrderTable
+    7. Add a copy activity to your canva and connect it to the two look up activities on the "On success"
+    8. Under source tab, select warehouse,  pick WH1 and use query
+    9. In the space provided, paste the following query: 
+      select * from SalesOrderTable where ModifiedDate > '@{activity('LookupOldWaterMarkActivity').output.firstRow.WatermarkValue}' and ModifiedDate <= '@{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}'
+
   
