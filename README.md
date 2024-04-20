@@ -16,6 +16,7 @@
 
 ### Creating Warehouse and database objects
   Fabric items will be created within the warehouse for incremental loading:
+  
     1. a watermarktable (this table within incremental loading context keep metadata of SaleOrderTable which will be used to track the freshness of data ingested into the warehouse)
     2. a store procedure to update the watermarktable:
         1. On the explorer, click the + icon to add your LH1 to the warehouse.
